@@ -17,7 +17,7 @@ public class Cadastro {
     void inserePaciente(Paciente novoPaciente){ //Adiciona um Paciente novo na lista
         listaPaciente.add(novoPaciente);
     }
-    void insereConsulta(Consulta novaConsulta){
+    void insereConsulta(Consulta novaConsulta){ //Adiciona uma Consulta nova la lista
             listaConsulta.add(novaConsulta);
     }
     void listarDentista(){ //Lista cada Dentista cadastrado
@@ -50,24 +50,26 @@ public class Cadastro {
     void cancelar(String cpf, Date data_consulta, String cro){ //Filtra por cpf, data da consulta e cro e muda o status da consulta para "Cancelada"
         for(Consulta consultaNaLista:listaConsulta){
             if(consultaNaLista.getPaciente().getCpf().equals(cpf) && (consultaNaLista.getData_consulta().equals(data_consulta)) &&
-            (consultaNaLista.getDentista().getCro().equals(cro))){
-                consultaNaLista.setFlag_consulta("Cancelada");
+              (consultaNaLista.getDentista().getCro().equals(cro))){
+                consultaNaLista.setStatus_consulta("Cancelada");
                 System.out.println("Consulta Cancelada!");
             }
         }
     }  
-    void relatorioConsultas(Date data, String cro){
+    void relatorioConsultas(Date data, String cro){ //filtra por data e cro e printa caso estejam iguais ao cadastro.
         for (Consulta consultaNaLista:listaConsulta){
             if(consultaNaLista.getData_consulta().equals(data) && (consultaNaLista.getDentista().getCro().equals(cro))){
                 System.out.println("\nRelatorio de Consultas Agendadas: " + 
-                consultaNaLista.getData_consulta() + consultaNaLista.getDentista().getCro());
+                "\nData da consulta: " + consultaNaLista.getData_consulta() +"\nNome do Dentista: " + consultaNaLista.getDentista().getNome() + 
+                "\nCRO do Dentista: " + consultaNaLista.getDentista().getCro() + "\nNome do Paciente: " + consultaNaLista.getPaciente().getNome());
             }
         }
     }
-    void relatorioFinanceiro(Date data){
+    void relatorioFinanceiro(Date data){ //filtra por Data e caso a data e a flag seja "sim" irá setar o valor como 350 e multiplicar pelo tamanho da lista consulta
         for (Consulta consultaNaLista:listaConsulta){
-            if(consultaNaLista.getData_consulta().equals(data)){
-                System.out.println("\nLista de Consultas da data: " + consultaNaLista.getData_consulta());
+            if(consultaNaLista.getData_consulta().equals(data) && (consultaNaLista.getFlag_consulta().equals("sim"))){
+                consultaNaLista.setValor_consulta(350.00 * listaConsulta.size());
+                System.out.println("\nLista de Consultas da data: " + consultaNaLista);
                 System.out.println("\nRelatorio Financeiro da data:" + consultaNaLista.getValor_consulta());
             }
         }

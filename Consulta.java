@@ -6,7 +6,7 @@ public class Consulta {
     private Date data_consulta;
     private Date hora_consulta;
     private String flag_consulta;
-    private Boolean status_consulta;
+    private String status_consulta;
     private Double valor_consulta;
 
     public Consulta(){
@@ -51,24 +51,22 @@ public class Consulta {
     public void setFlag_consulta(String flag_consulta) {
         this.flag_consulta = flag_consulta;
     }
-    public Boolean getStatus_consulta() {
+    public String getStatus_consulta() {
         return status_consulta;
     }
-    public void setStatus_consulta(Boolean status_consulta) {
+    public void setStatus_consulta(String status_consulta) {
         this.status_consulta = status_consulta;
     }
     public Double getValor_consulta() {
         return valor_consulta;
     }
     public void setValor_consulta(Double valor_consulta) {
-        this.valor_consulta = 350.00;
-
+            this.valor_consulta = valor_consulta;
     }
 
     void listar(){
         System.out.println("\nNome do dentista: " + this.dentista.getNome());
         System.out.println("\nNome do paciente: " + this.paciente.getNome());
-        System.out.println("\nSituação da Consulta: " + this.flag_consulta);
+        System.out.println("\nSituação da Consulta: " + this.status_consulta);
     }
-
 }

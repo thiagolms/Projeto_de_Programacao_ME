@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args) throws ParseException {
         SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
         Scanner dados = new Scanner(System.in);
         int opc;
         String cro, nome, cpf, endereco, flag_consulta;
@@ -54,7 +54,7 @@ public class Menu {
                     System.out.println("\nDigite a Data do Cadastro do Paciente: ");
                     data_cadastro = formatoData.parse(dados.nextLine());
                     System.out.println("\nDigite o Endereço do Paciente: ");
-                    endereco = dados.next();
+                    endereco = dados.nextLine();
                     novoPaciente = new Paciente(cpf, nome, data_nascimento, data_cadastro, endereco);
                     novoCadastro.inserePaciente(novoPaciente); //Um novo paciente é criado e armazenado
                     break;
@@ -66,25 +66,27 @@ public class Menu {
                     String dentistaNome = dados.nextLine();
                     System.out.println("\nDigite o Nome do Paciente: ");
                     String pacienteNome = dados.nextLine();
-                    System.out.println("\nDigite a Data da Consulta do Paciente: ");
+                    System.out.println("\nDigite a Data da Consulta do Paciente dd/MM/yyyy: ");
                     data_consulta = formatoData.parse(dados.nextLine());
                     System.out.println("\nDigite a Hora da Consulta: ");
                     hora_consulta = formatoHora.parse(dados.nextLine());
                     System.out.println("\nÉ a sua primeira consulta? sim ou não: ");
                     flag_consulta = dados.nextLine();
+
                     for (Dentista dentista  : novoCadastro.listaDentista) { //Cadastro de Consultas
                         if(dentista.getNome().equals(dentistaNome)){
                             dentistaNomeObj = dentista;
                         }
                     }
-                    for (Paciente paciente : novoCadastro.listaPaciente) {
-                        if(paciente.getNome().equals(pacienteNome)){
+                    for (Paciente paciente : novoCadastro.listaPaciente) {  //passa o dado recebido para ser cadastrado em consulta.
+                        if(paciente.getNome().equals(pacienteNome)){        //Não pode cadastrar se Paciente e Dentista estiver vazio
                             pacienteNomeObj = paciente;
                         }
                     }
-                    if (dentistaNomeObj != null && dentistaNomeObj != null){
+                    if (dentistaNomeObj != null && dentistaNomeObj != null){ //verifica se o obj está vazio, caso não seja ele cadastra a consulta
                         novaConsulta = new Consulta(dentistaNomeObj, pacienteNomeObj, data_consulta, hora_consulta, flag_consulta);
                         novoCadastro.insereConsulta(novaConsulta);
+                        novaConsulta.setStatus_consulta("Agendada");
                     }
                     break;
                 case 4:
@@ -93,13 +95,17 @@ public class Menu {
                     novoCadastro.cancelar(dados.nextLine(), formatoData.parse(dados.nextLine()), dados.nextLine());
                     break;
                 case 5:
-                    //novoCadastro.relatorioConsultas(data_consulta, cro); //Relatorio de Consultas agendadas por data
+                    System.out.println("Relatório de Consultas Agendadas");
+                    System.out.println("Digite a Data e o CRO da Consulta: ");
+                    novoCadastro.relatorioConsultas(formatoData.parse(dados.nextLine()), dados.nextLine()); //Relatorio de Consultas agendadas por data
                     break;
                 case 6:
-                    //novoCadastro.relatorioFinanceiro(data_consulta); //Relatorio Financeiro filtrado por data
+                    System.out.println("Relatório Financeiro");
+                    System.out.println("Digite a Data para acessar as consultas e valores: ");
+                    novoCadastro.relatorioFinanceiro(formatoData.parse(dados.nextLine())); //Relatorio Financeiro filtrado por data
                     break;
                 case 0:
-                    System.out.println("\nSaindo...");
+                    System.out.println("\nSaindo..."); //finaliza o programa
                     break;
             }
         } while (opc != 0);
